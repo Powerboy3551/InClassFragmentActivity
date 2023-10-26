@@ -2,6 +2,7 @@ package edu.temple.inclassactivity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,11 +14,15 @@ class MainActivity : AppCompatActivity() {
         val imageArray = IntArray(typedArray.length()) {typedArray.getResourceId(it, 0)}
         typedArray.recycle()
 
+        ImagesViewModel.setImages(imageArray)
+
         // Attach an instance of ImageDisplayFragment using factory method
         val imageDisplayFragment = ImageDisplayFragment.newInstance(imageArray)
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainerView, imageDisplayFragment)
             .commit()
+
+        val imagesViewModel = ViewModelProvider(this)[ImagesViewModel::class.java]
     }
 }

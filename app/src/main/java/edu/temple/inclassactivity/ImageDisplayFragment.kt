@@ -9,10 +9,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 const val IMAGES_KEY = "imageList"
+
+
 
 class ImageDisplayFragment : Fragment() {
 
@@ -40,8 +43,19 @@ class ImageDisplayFragment : Fragment() {
         // The recycler view is the root element of the Fragment's layout
         // as such the view argument passed to onViewCreated() is the RecyclerView
         with (view as RecyclerView) {
+
+            ViewModelProvider(requireActivity())[ImagesViewModel::class.java]
+                .getImages().observe(viewLifecycleOwner) {
+                    adapter = CustomRecyclerAdapter(it)
+                }
+
             adapter = CustomRecyclerAdapter(images)
             layoutManager = GridLayoutManager(requireContext(), 2)
+
+
+
+
+
         }
     }
 
